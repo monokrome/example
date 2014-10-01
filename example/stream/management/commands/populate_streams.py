@@ -7,10 +7,12 @@ from django.utils import timezone
 from ... import models
 
 
-BASE_TIME = timezone.now() - datetime.timedelta(days=90)
 MAX_DAYS_AFTER_BASE = 10000
-POINT_COUNT = 100000
-STREAM_COUNT = 100
+POINT_COUNT = 3000
+STREAM_COUNT = 3
+
+RUN_TIME = timezone.now()
+BASE_TIME = RUN_TIME - datetime.timedelta(days=30)
 
 
 class Command(BaseCommand):
@@ -25,10 +27,16 @@ class Command(BaseCommand):
             else:
                 point.content = {'important': False, 'ignore': False}
 
-            point.time_created = BASE_TIME + datetime.timedelta(
-                days=int(random.random() * MAX_DAYS_AFTER_BASE)
-            )
+            if scalar > 120:
+                days_out = int(random.random() * MAX_DAYS_AFTER_BASE)
+                created_time = RUN_TIME + datetime.timedelta(days=days_out)
+            else:
+                created_time = BASE_TIME + datetime.timedelta(
+                    days=int(scalar / 4),
+                    hours=int(scalar % 4) * 23,
+                )
 
+            point.time_created = created_time
             point.stream = stream
             point.save()
 
