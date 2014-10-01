@@ -1,0 +1,7 @@
+<h3>Streams available:</h3>
+
+<ul>
+{% for stream in streams %}
+<li><strong><a href="{% url "stream-detail" stream.pk %}">{{ stream.name }}</strong></a></li>
+{% endfor %}
+</ul>
