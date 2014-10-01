@@ -1,7 +1,13 @@
 from django.conf.urls import patterns, url
-from .views import StreamDetailView
+from . import views
 
 
 urlpatterns = patterns('',
-    url(r'^(?P<pk>\d+)/$', StreamDetailView.as_view()),
+    url(r'^$',
+        views.StreamListView.as_view(),
+        name='stream-list'),
+
+    url(r'^(?P<pk>\d+)/$',
+        views.StreamDetailView.as_view(),
+        name='stream-detail'),
 )
