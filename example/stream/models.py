@@ -18,7 +18,7 @@ class Point(models.Model):
     """ Specific point of interesting data. """
 
     content_string = models.TextField(_('related content'))
-    time_created = models.DateTimeField(_('Begins'))
+    time_created = models.DateTimeField(_('time created'), auto_now_add=True)
 
     stream = models.ForeignKey(Stream, related_name='points')
 
@@ -34,14 +34,6 @@ class Point(models.Model):
 
         self.content_string = json.dumps(value)
         return self.content_string
-
-    def save(self, *args, **kwargs):
-        """ Saves the object while updating the time created if it's null. """
-
-        if self.time_created is None:
-            self.time_created = timezone.now()
-
-        return super(Point, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return str(self.time_created)
