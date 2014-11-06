@@ -23,7 +23,7 @@ class Point(models.Model):
         )
 
     content_string = models.TextField(_('related content'))
-    time_created = models.DateTimeField(_('time created'))
+    time_created = models.DateTimeField(_('time created'), default=timezone.now)
 
     stream = models.ForeignKey(Stream, related_name='points')
 
@@ -42,16 +42,3 @@ class Point(models.Model):
 
     def __unicode__(self):
         return str(self.time_created)
-
-    def save(self, *args, **kwargs):
-        """ Override save instead of using `auto_now_add`.
-
-        This is because `auto_now_add` will override explicitly assigned values
-        on first save.
-
-        """
-
-        if not self.time_created:
-            self.time_created = timezone.now()
-
-        return super(Point, self).save(*args, **kwargs)
