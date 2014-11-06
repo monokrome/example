@@ -22,10 +22,13 @@ class Point(models.Model):
             'time_created',
         )
 
-    content_string = models.TextField(_('related content'))
-    time_created = models.DateTimeField(_('time created'), default=timezone.now)
-
     stream = models.ForeignKey(Stream, related_name='points')
+    content_string = models.TextField(_('related content'))
+
+    time_created = models.DateTimeField(
+        _('time created'),
+        default=timezone.now,
+    )
 
     @property
     def content(self):
