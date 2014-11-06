@@ -1,8 +1,19 @@
 <h3>{{ stream.name }}</h3>
 
-<ul>
-{% for point in stream.points.all %}
-<li>Created at <strong>{{ point.time_created }}</strong></li>
-<li>Data: <code>{{ point.content }}</code></li>
-{% endfor %}
-</ul>
+<table>
+    <thead>
+    <tr>
+        <th>time created</th>
+        <th>data</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for point in stream.points.all %}
+    <tr>
+        <td>{{ point.time_created }}</td>
+        <td>{{ point.content }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

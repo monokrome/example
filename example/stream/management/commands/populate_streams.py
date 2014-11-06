@@ -29,15 +29,15 @@ class Command(BaseCommand):
 
             if scalar > 120:
                 days_out = int(random.random() * MAX_DAYS_AFTER_BASE)
-                created_time = RUN_TIME + datetime.timedelta(days=days_out)
+                time_created = RUN_TIME + datetime.timedelta(days=days_out)
             else:
-                created_time = BASE_TIME + datetime.timedelta(
+                time_created = BASE_TIME + datetime.timedelta(
                     days=int(scalar / 4),
                     hours=int(scalar % 4) * 23,
                 )
 
-            point.time_created = created_time
             point.stream = stream
+            point.time_created = time_created
             point.save()
 
             return point
@@ -60,4 +60,5 @@ class Command(BaseCommand):
         for Model in [models.Point, models.Stream]:
             Model.objects.all().delete()
 
-        map(self.create_stream, range(1, STREAM_COUNT))
+        # Regenerate new data
+        map(self.create_stream, range(1, STREAM_COUNT+1))
